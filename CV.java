@@ -15,7 +15,7 @@ public class CV {
                 + "\nFormation: " + this.formation
                 + "\nExperience: " + this.experience
                 + "\nCompetences: ");
-        for (String competence : Competences) {
+        for (String competence : competences) {
             System.out.print("\n" + competence);
         }
         System.out.println("\nAttentes: " + this.Attentes + "\n");
