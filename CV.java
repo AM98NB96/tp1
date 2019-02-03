@@ -9,6 +9,16 @@ public class CV {
 	List<String> competence;
 	Private String  attente;
 	
+	
+	public CV(String nom, String prenom, String formation, int experience, List<String> competences, String attentes) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.formation = formation;
+        this.experience = experience;
+        this.competences = competences;
+        this.attentes = attentes;
+    }
+	
 	public void affiche() {
 		System.out.print("Nom: " + this.nom
                 + "\nPrenom: " + this.prenom
