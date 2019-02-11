@@ -28,6 +28,19 @@ public class CV {
 	
 	/**
 	 * Constructeur de la classe CV.
+	 * 
+	 * @param nom
+	 * 			Nom de l'usager.
+	 * @param prenom
+	 * 			Prenom de l'usager.
+	 * @param formation
+	 * 			Formation de l'usager.
+	 * @param experience
+	 * 			Experience de l'usager.
+	 * @param competence
+	 * 			Competence de l'usager.
+	 * @param attente
+	 * 			Attente de l'usager vis-à-vis le cours.
 	 */
 	
 	public CV(String nom, String prenom, String formation, int experience, List<String> competences, String attentes) {

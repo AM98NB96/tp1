@@ -12,6 +12,9 @@ public class Client {
 	
 	/**
 	 * Constructeur de la classe client.
+	 * 
+	 * @param nom
+	 * 			Le nom du client.
 	 */
 	public Client(String nom) {
 		this.nom = nom;
