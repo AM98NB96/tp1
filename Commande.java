@@ -5,31 +5,31 @@ import java.util.*;
  *
  * @param client
  * 			Contient les informations du client.
- * @param platCommande
+ * @param plat
  * 			Contient les informations du plat choisi.
- * @param nbDeCommande
- * 			Le nombre de fois que le plat a été commandé.
+ * @param qte
+ * 			La quantité.
  */
 public class Commande {
 	
 	Client client;
-	Plat platCommande;
-	int nbDeCommande;
+	Plat plat;
+	int qte;
 	
 	/**
 	 * Constructeur de la classe commande.
 	 * 
 	 * @param client
 	 * 			Contient les informations du client.
-	 * @param platCommande
+	 * @param plat
 	 * 			Contient les informations du plat choisi.
-	 * @param nbDeCommande
-	 * 			Le nombre de fois que le plat a été commandé.
+	 * @param qte
+	 * 			La quantité.
 	 */
-	public Commande(Client client, Plat platCommande, int nbDeCommande) {
+	public Commande(Client client, Plat plat, int qte) {
 		this.client = client;
-		this.platCommande = platCommande;
-		this.nbDeCommande = nbDeCommande;
+		this.plat = plat;
+		this.qte = qte;
 	}
 	
 }
