@@ -1,0 +1,61 @@
+Normes
+	Indentation :
+		Longueur de ligne :
+			Saut de ligne pour garder le code dans la zone d’affichage.
+			System.out.println("Ceci est une ligne de code qui est trop " 
+				+ "longue.");
+			
+		Utilisation des accolades :
+			Positionner l’accolade d’ouverture sur la même ligne et celle de fermeture sous 
+			le code.
+			
+			boop() {
+				if (condition) {
+				
+				} else {
+				
+				}
+			}
+			
+	Commentaires :
+		Usage :
+			Commentaires Java Doc pour décrire les Classes et les Méthodes
+			
+			//**
+			* Description sommaire
+			* @param pourParamètres 
+			* @return pourRetours 
+			*/
+			
+	Déclarations :
+		Usage :
+			La déclaration des variables se fait au début du bloc dans lequel elles se 
+			trouvent et une ligne doit contenir une seule déclaration de variable.
+			
+			methode() {
+				int patate;
+				String chose;
+			}
+			
+	Nomenclature :
+		Générale :
+			camel case. Pas d’accents et caractères spéciaux.
+			camelCaseEstFaitCommeCa
+		Classes :
+			Majuscule au début. Doit être court et représentatif de son contenu.
+			Patate() {
+			}
+		Interfaces : 
+			ditto Classes.
+		Méthodes :
+			Débute par une minuscule. Nom descriptif de l’action de la méthode.
+			pousse() {
+			}
+		Variables :
+			Débute par une minuscule. Doit représenter ce qu’elle contient.
+			int poidPatate;
+			String varietePatate;
+		Constantes :
+			En majuscule tous les mots sont séparés par des "_"
+			String FAMILLE_VEGETALE = "féculent";
+
