@@ -19,12 +19,12 @@ import java.util.*;
 
 public class CV {
 	
-	Private String nom;
-	Private String prenom;
-	Private String formation;
-	Private int experience;
+	private String nom;
+	private String prenom;
+	private String formation;
+	private int experience;
 	List<String> competence;
-	Private String  attente;
+	private String  attente;
 	
 	/**
 	 * Constructeur de la classe CV.
@@ -48,8 +48,8 @@ public class CV {
         this.prenom = prenom;
         this.formation = formation;
         this.experience = experience;
-        this.competences = competences;
-        this.attentes = attentes;
+        this.competence = competences;
+        this.attente = attentes;
     }
 	
 	/**
@@ -62,10 +62,10 @@ public class CV {
                 + "\nFormation: " + this.formation
                 + "\nExperience: " + this.experience
                 + "\nCompetences: ");
-        for (String competence : competences) {
+        for (String competence : competence) {
             System.out.print("\n" + competence);
         }
-        System.out.println("\nAttentes: " + this.Attentes + "\n");
+        System.out.println("\nAttentes: " + this.attente + "\n");
 	}
 	
 	/**

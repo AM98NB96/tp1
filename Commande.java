@@ -1,5 +1,3 @@
-import java.util.*;
-
 /**
  * La classe client contient les informations de la commande.
  *
