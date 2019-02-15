@@ -1,0 +1,12 @@
+Clients :
+bob
+bab
+bib
+Plats :
+rawr 1.49
+miam 2.00
+menoum 3.15
+Commandes :
+bob rawr 1
+bob miam 3
+bib menoum 1

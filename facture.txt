@@ -1,0 +1,4 @@
+Factures:
+bob 7.49$
+bab 0.0$
+bib 3.15$

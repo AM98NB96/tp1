@@ -14,8 +14,9 @@ public class Client {
 	 * @param nom
 	 * 			Le nom du client.
 	 */
+	public Client() {}
+	
 	public Client(String nom) {
 		this.nom = nom;
 	}
-	
 }

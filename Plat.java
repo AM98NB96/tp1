@@ -1,4 +1,3 @@
-package TP1;
 /**
  * La classe Plat contient les informations du plat.
  * @param nom
@@ -15,13 +14,24 @@ public class Plat {
 	 * Constructeur avec paramêtre de la classe plat
 	 * 
 	 * @param nom
+	 * 
+	 */
+	public Plat() {}
+	
+	public Plat(String nom) {
+		this.nom = nom;
+	}
+	/**
+	 * Constructeur avec paramêtre de la classe plat
+	 * 
+	 * @param nom
 	 * @param cout
 	 * 
 	 */
+	
 	public Plat(String nom, double cout) {
 		this.nom = nom;
 		this.cout = cout;
 	}
-	
 	
 }
