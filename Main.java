@@ -5,7 +5,13 @@ import java.util.Scanner;
 /**
  * Classe principale permettant l'execution du programme.
  * 
- *
+ * @param client
+ * 			Liste pour contenir les clients
+ * @param plats
+ * 			Liste pour contenir les plats
+ * @param commandes
+ * 			Liste pour contenir les commandes
+ * 
  */
 public class Main {
 	
@@ -31,6 +37,7 @@ public class Main {
 	/**
 	 * Lecture du fichier objet pour créer les objets qui y sont sauvegardés
 	 * @param fichier
+	 * 			Contient le nom du fichier
 	 * @throws FileNotFoundException
 	 */
 	static void lireFichierObjet(String fichier) throws FileNotFoundException {
@@ -43,7 +50,7 @@ public class Main {
 			
 			String tmpString = input.nextLine();
 				//Type d'objet courrant
-			if (tmpString.equals("Clients :") || tmpString.equals("Plats :") || tmpString.equals("Commandes :")) {
+			if (tmpString.equals("Clients :") || tmpString.equals("Plats :") || tmpString.equals("Commandes :") || tmpString.equals("Fin")) {
 				
 				typeObj = tmpString;
 				
@@ -54,54 +61,46 @@ public class Main {
 				
 				switch (typeObj) {
 				
-				//Création des clients
-				case "Clients :":					
-					clients.add(new Client(tmpString));					
-					break;
-					
-				//Création des plats
-				case "Plats :":
-					plats.add(new Plat(tmp[0], Double.parseDouble(tmp[1])));
-					break;
-
-				//Création des commandes
-				case "Commandes :":
-					
-					Client client = new Client();
-					Plat plat = new Plat();
-					int qte;
-					
-					for (Client c : clients) {
-						client = (c.nom.equals(tmp[0]) ? c : client);
-					}
-					for (Plat p : plats) {
-						plat = (p.nom.equals(tmp[1]) ? p : plat);
-					}
-					qte = Integer.parseInt(tmp[2]);
-					
-					commandes.add(new Commande(client, plat, qte));
-					
-					break;
+					//Création des clients
+					case "Clients :":
+						clients.add(new Client(tmpString));					
+						break;
+						
+					//Création des plats
+					case "Plats :":
+						plats.add(new Plat(tmp[0], Double.parseDouble(tmp[1])));
+						break;
+	
+					//Création des commandes
+					case "Commandes :":
+						
+						Client client = new Client();
+						Plat plat = new Plat();
+						int qte;
+						
+						for (Client c : clients) {
+							client = (c.nom.equals(tmp[0]) ? c : client);
+						}
+						for (Plat p : plats) {
+							plat = (p.nom.equals(tmp[1]) ? p : plat);
+						}
+						qte = Integer.parseInt(tmp[2]);
+						
+						commandes.add(new Commande(client, plat, qte));
+						
+						break;
+					case "Fin":
+						// Fin de la lecture
+						break;
 				}
 			}
-		}
-		System.out.println(" -- Waat -- ");
-		for (Client c : clients) {
-			System.out.println(c.nom);
-		}
-		System.out.println(" -- Wuut -- ");
-		for (Plat p : plats) {
-			System.out.println(p.nom + " " + p.cout);
-		}
-		System.out.println(" -- Woot -- ");
-		for (Commande c : commandes) {
-			System.out.println(c.client.nom + " " + c.plat.nom + " " + c.qte);
 		}
 		input.close();
 	}
 	/**
 	 * Création du fichier d'un fichier où les factures sont sauvegardées
 	 * @param nomFichier
+	 * 			Contient le nom du fichier
 	 * @throws FileNotFoundException
 	 */
 	static void creerFacture(String nomFichier) throws FileNotFoundException {

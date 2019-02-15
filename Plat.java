@@ -14,6 +14,7 @@ public class Plat {
 	 * Constructeur avec paramêtre de la classe plat
 	 * 
 	 * @param nom
+	 * 		Le nom du plat
 	 * 
 	 */
 	public Plat() {}
@@ -25,7 +26,9 @@ public class Plat {
 	 * Constructeur avec paramêtre de la classe plat
 	 * 
 	 * @param nom
+	 * 		Le nom du plat
 	 * @param cout
+	 * 		Le cout du plat
 	 * 
 	 */
 	

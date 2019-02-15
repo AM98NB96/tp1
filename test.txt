@@ -1,12 +1,13 @@
 Clients :
-bob
-bab
-bib
+Roger
+Céline
+Steeve
 Plats :
-rawr 1.49
-miam 2.00
-menoum 3.15
+Poutine 10.5
+Frites 2.5
+Repas_Poulet 15.75
 Commandes :
-bob rawr 1
-bob miam 3
-bib menoum 1
+Roger Poutine 1
+Céline Frites 2
+Céline Repas_Poulet 1
+Fin
