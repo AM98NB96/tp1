@@ -1,0 +1,13 @@
+Implémentation et modification de la sortie terminal et fichier (Facture-du-date-heure.txt) :
+
+1- Afficher toutes les commandes incorrectes (les détails de la commande et la raison de l'erreur) avant les factures.
+	affiché une liste contenant les informations des commandes et code d'erreur de ces dernières.
+	ex. 
+	Commande: blah blah
+	Erreur: blah blah
+
+2- On affiche pas la facture d'un client qui ne dépasse pas 0$.
+	verification simple si total = 0
+3- Application des taxes TPS 5% et TVQ 10%
+	ajout des constantes TPS=0.05 et TVQ=0.1
+	ajout des taxes au cout avant taxe--> coutTaxe = cout * (1+TPS+TVQ)
