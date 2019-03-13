@@ -1,3 +1,4 @@
+package main;
 /**
  * La classe Plat contient les informations du plat.
  * @param nom

@@ -1,3 +1,4 @@
+package main;
 /**
  * La classe client contient les informations du client.
  *

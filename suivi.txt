@@ -1,0 +1,12 @@
+Tâches à faire
+Antoine : 
+Implémentation et correction de la vérification d'erreur dans les commande :
+Le nom du client ou le plat n'existe pas.
+Le format d'un client, d'un plat ou d'une commande n'est pas respecté.
+Des chiffres sont erronés (pris du plat, quantité de plats commandés).
+
+Nicolas :
+Implémentation et modification de la sortie terminal et fichier (Facture-du-date-heure.txt) :
+Afficher toutes les commandes incorrectes (les détails de la commande et la raison de l'erreur) avant les factures.
+On affiche pas la facture d'un client qui ne dépasse pas 0$.
+Application des taxes TPS 5% et TVQ 10%
