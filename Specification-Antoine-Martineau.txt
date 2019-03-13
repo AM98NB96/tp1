@@ -4,11 +4,16 @@ Le format d'un client, d'un plat ou d'une commande n'est pas respecté.
 
 Des chiffres sont erronés (pris du plat, quantité de plats commandés).
 
-Méthode lireFichierObjet:
-Ajout de vérification avant la création d'objet client, plat ou commande
-pour s'assurer qu'il n'y a aucune erreur de format.
+Ajout d'une classe d'erreur pour stocker les lignes de commandes erronés et le message d'erreur
+adéquat.
 
-Lors d'une erreur, garder l'erreur et un message d'erreur pour pouvoir les afficher
-dans la sortie.
+Créer une liste d'objet erreur pour stocker toutes les erreurs.
+
+Méthode lireFichierObjet:
+Ajout de vérification avant la création d'une commande
+pour s'assurer qu'il n'y a aucune erreur.
+
+Lors d'une erreur, ajouter une erreur a la liste d'erreur.
+
 
 
