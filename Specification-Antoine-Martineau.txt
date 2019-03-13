@@ -1,0 +1,14 @@
+Le nom du client ou le plat n'existe pas.
+
+Le format d'un client, d'un plat ou d'une commande n'est pas respecté.
+
+Des chiffres sont erronés (pris du plat, quantité de plats commandés).
+
+Méthode lireFichierObjet:
+Ajout de vérification avant la création d'objet client, plat ou commande
+pour s'assurer qu'il n'y a aucune erreur de format.
+
+Lors d'une erreur, garder l'erreur et un message d'erreur pour pouvoir les afficher
+dans la sortie.
+
+
