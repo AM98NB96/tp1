@@ -118,9 +118,9 @@ public class MainTest {
 		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
 		
 		assertEquals(Main.creerFacture("Facture.txt"), "Erreur de la commande: Joe Spaghetti 0\r\n" +
-													   "Code d'erreur: La quantité doit être d'au moins 1.\r\n" +
+													   "Code d'erreur: La quantité ne peut pas être 0.\r\n" +
 													   "Erreur de la commande: Joe Spaghetti -1\r\n" +
-													   "Code d'erreur: La quantité doit être d'au moins 1.\r\n" +
+													   "Code d'erreur: La quantité ne peut pas être inférieure à 0.\r\n" +
 													   "Facture de Joe:\r\n" + 
 													   "Av taxe:            10.00$\r\n" + 
 													   "TPS(5%):             0.50$\r\n" + 
@@ -140,7 +140,7 @@ public class MainTest {
 		Main.commandes.add(new Commande(new Client("JoePoutine"), new Plat("1"), 0));
 		
 		assertEquals(Main.creerFacture("Facture.txt"), "Erreur de la commande: JoePoutine 0\r\n" +
-													   "Code d'erreur: Le format de la commande n'est pas respecté.\r\n" +
+													   "Code d'erreur: Le format de la commande est invalide, car il manque un paramêtre.\r\n" +
 													   "Facture de Joe:\r\n" + 
 													   "Av taxe:            10.00$\r\n" + 
 													   "TPS(5%):             0.50$\r\n" + 
@@ -197,9 +197,9 @@ public class MainTest {
 		
 		Main.lireFichierObjet("testFormatCommande.txt");
 		
-		Erreur erreur = new Erreur("Roger Poutine", "Le format des la commande est invalide, car il manque un paramêtre.");
-		Erreur erreur1 = new Erreur("Roger Poutine blah", "Le format des la commande est invalide, car blah n'est pas une quantité.");
-		Erreur erreur2 = new Erreur("Roger Poutine 0.5", "Le format des la commande est invalide, car 0.5 n'est pas une quantité.");
+		Erreur erreur = new Erreur("Roger Poutine", "Le format de la commande est invalide, car il manque un paramêtre.");
+		Erreur erreur1 = new Erreur("Roger Poutine blah", "Le format de la commande est invalide, car blah n'est pas une quantité.");
+		Erreur erreur2 = new Erreur("Roger Poutine 0.5", "Le format de la commande est invalide, car 0.5 n'est pas une quantité.");
 		
 		assertEquals(Main.erreurs.get(0), erreur);
 		assertEquals(Main.erreurs.get(1), erreur1);
@@ -220,7 +220,7 @@ public class MainTest {
 		Main.lireFichierObjet("testQuantiteInvalide.txt");
 		
 		Erreur erreur = new Erreur("Roger Poutine -1", "La quantité ne peut pas être inférieure à 0.");
-		Erreur erreur1 = new Erreur("Roger Poutine 0", "la quantité ne peut pas être 0.");
+		Erreur erreur1 = new Erreur("Roger Poutine 0", "La quantité ne peut pas être 0.");
 		
 		assertEquals(Main.erreurs.get(0), erreur);
 		assertEquals(Main.erreurs.get(1), erreur1);
