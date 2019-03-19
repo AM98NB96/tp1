@@ -16,9 +16,9 @@ import java.util.Scanner;
  */
 public class Main {
 	
-	static LinkedList<Client> clients = new LinkedList<Client>();
-	static LinkedList<Plat> plats = new LinkedList<Plat>();
-	static LinkedList<Commande> commandes = new LinkedList<Commande>();
+	public static LinkedList<Client> clients = new LinkedList<Client>();
+	public static LinkedList<Plat> plats = new LinkedList<Plat>();
+	public static LinkedList<Commande> commandes = new LinkedList<Commande>();
 	
 	public static void main(String[] args) {
 	
@@ -41,7 +41,7 @@ public class Main {
 	 * 			Contient le nom du fichier
 	 * @throws FileNotFoundException
 	 */
-	static void lireFichierObjet(String fichier) throws FileNotFoundException {
+	public static void lireFichierObjet(String fichier) throws FileNotFoundException {
 		
 		Scanner input = new Scanner(new FileReader(fichier));
 		
@@ -104,7 +104,7 @@ public class Main {
 	 * 			Contient le nom du fichier
 	 * @throws FileNotFoundException
 	 */
-	static void creerFacture(String nomFichier) throws FileNotFoundException {
+	public static void creerFacture(String nomFichier) throws FileNotFoundException {
 		PrintWriter sortie = new PrintWriter(nomFichier);
 		sortie.println("Factures:");
 		for (Client cli : clients) {
