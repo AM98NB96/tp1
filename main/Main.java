@@ -19,6 +19,7 @@ public class Main {
 	public static LinkedList<Client> clients = new LinkedList<Client>();
 	public static LinkedList<Plat> plats = new LinkedList<Plat>();
 	public static LinkedList<Commande> commandes = new LinkedList<Commande>();
+	public static LinkedList<Erreur> erreurs = new LinkedList<Erreur>();
 	
 	public static void main(String[] args) {
 	
