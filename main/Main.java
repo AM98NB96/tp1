@@ -1,9 +1,14 @@
 package main;
 import java.io.*;
 import java.sql.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -26,12 +31,13 @@ public class Main {
 	public static LinkedList<Erreur> erreurs = new LinkedList<Erreur>();
 	
 	public static void main(String[] args) {
-
-	
 		lireFichierObjet("test.txt");
 		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH");
+		Date date = new Date();
+		
 		if (commandes.size() > 0) {
-			creerFichierFacture("facture.txt");
+			creerFichierFacture("Facture-du-" + dateFormat.format(date) + ".txt");
 		}
 	}
 	/**
@@ -44,7 +50,7 @@ public class Main {
 			Scanner input = new Scanner(new FileReader(fichier));
 		
 			String typeObj = "";
-			
+
 			while (input.hasNextLine()) {
 				
 				String tmpString = input.nextLine();
@@ -74,7 +80,7 @@ public class Main {
 									}
 								}
 							}
-							
+
 							clients.add(new Client(tmpString));					
 							break;
 							
@@ -104,8 +110,8 @@ public class Main {
 						//Création des commandes
 						case "Commandes :":
 							
-							Client client = new Client();
-							Plat plat = new Plat();
+							Client client = new Client("");
+							Plat plat = new Plat("");
 							int qte = 0;
 							
 							// Test Client
@@ -121,20 +127,22 @@ public class Main {
 							}
 							
 							for (Client c : clients) {
-								if (c.nom.equals(tmp[0])) client = c;
-								else {
-									erreurs.add(new Erreur(tmpString , "Le client n'existe pas."));
-									erreur = true;
-								}
+								if (c.nom.equals(tmp[0])) client = c; 
+							}
+							
+							if (client.nom.equals("")) {
+								erreurs.add(new Erreur(tmpString , "Le client n'existe pas."));
+								erreur = true;
 							}
 							
 							// Test Plat
 							for (Plat p : plats) {
 								if (p.nom.equals(tmp[1])) plat = p;
-								else {
-									erreurs.add(new Erreur(tmpString , "Le plat n'existe pas."));
-									erreur = true;
-								}
+							}
+							
+							if (plat.nom.equals("")) {
+								erreurs.add(new Erreur(tmpString , "Le plat n'existe pas."));
+								erreur = true;
 							}
 							
 							//Test Quantité
@@ -197,10 +205,10 @@ public class Main {
 		double total = cout + coutTPS + coutTVQ;
 		int nbE = 21 + String.format("%.2f",
 				Collections.max(Arrays.asList(cout, coutTPS, coutTVQ, total))).length();
-		String facture = ("Facture de " + nomClient + ":\r\n" + 
-				assemblerFacture(nbE, cout, "Av taxe:") +
-				assemblerFacture(nbE, coutTPS, "TPS(5%):") +
-				assemblerFacture(nbE, coutTVQ, "TVQ(10%):") +
+		String facture = ("Facture de " + nomClient + ":\n" + 
+				assemblerFacture(nbE, cout, "Av taxe:") + "\n" +
+				assemblerFacture(nbE, coutTPS, "TPS(5%):") + "\n" +
+				assemblerFacture(nbE, coutTVQ, "TVQ(10%):") + "\n" +
 				assemblerFacture(nbE, total, "Total:"));
 		return facture;
 	}
@@ -220,7 +228,7 @@ public class Main {
 		String sCout = String.format("%.2f", cout);
 		char[] espaces = new char[nbEspaces-(titre+sCout).length()];
 		Arrays.fill(espaces, ' ');
-		return (titre + new String(espaces) + sCout + "$\r\n");
+		return (titre + new String(espaces) + sCout + "$");
 	}
 	/**
 	 * Création du fichier d'un fichier où les factures sont sauvegardées
@@ -229,6 +237,7 @@ public class Main {
 	 */
 	public static void creerFichierFacture(String nomFichier){
 		PrintWriter sortie;
+		
 		try {
 			sortie = new PrintWriter(nomFichier);
 			
@@ -241,13 +250,26 @@ public class Main {
 			}
 			
 			//Titre
-			System.out.println("Factures:");
-			sortie.println("Factures:");
+			if (commandes.size() > 0) {
+				System.out.println("Factures:");
+				sortie.println("Factures:");
+			}
+			
 			
 			// Affichage des commandes
-			for (Commande com : commandes) {
-				System.out.println(creerFacture(com.client.nom, com.plat.cout));
-				sortie.println(creerFacture(com.client.nom, com.plat.cout));
+			for (Client client : clients) {
+				double prix = 0;
+				
+				for (Commande com : commandes) {
+					if (com.client.nom.equals(client.nom)) {
+						prix += com.qte * com.plat.cout;
+					}
+				}
+				
+				if (prix > 0) {
+					System.out.println(creerFacture(client.nom, prix));
+					sortie.println(creerFacture(client.nom, prix));
+				}
 			}
 			
 			sortie.close();

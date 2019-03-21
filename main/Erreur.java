@@ -10,8 +10,8 @@ package main;
  */
 public class Erreur {
 	
-	public String commande;
-	public String codeErreur;
+	String commande;
+	String codeErreur;
 	
 	/**
 	 * Constructeur de la classe commande.

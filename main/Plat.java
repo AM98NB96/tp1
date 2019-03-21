@@ -8,8 +8,8 @@ package main;
  */
 public class Plat {
 	
-	public String nom;
-	public double cout;
+	String nom;
+	double cout;
 	
 	/**
 	 * Constructeur avec paramêtre de la classe plat
@@ -18,8 +18,6 @@ public class Plat {
 	 * 		Le nom du plat
 	 * 
 	 */
-	public Plat() {}
-	
 	public Plat(String nom) {
 		this.nom = nom;
 	}

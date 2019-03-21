@@ -5,7 +5,10 @@ import main.*;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 import org.junit.After;
 import org.junit.Before;
@@ -28,128 +31,156 @@ public class MainTest {
 	 *************************************************** */
 	@Test
 	public void testCreerFacture() {
+		Main.lireFichierObjet("test.txt");
 		
-		Main.clients.add(new Client("Joe"));
-		Main.clients.add(new Client("Paul"));
-		
-		Main.plats.add(new Plat("Spaghetti", 10));
-		Main.plats.add(new Plat("Poutine", 6));
-		
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
-		Main.commandes.add(new Commande(Main.clients.get(1), Main.plats.get(1), 2));
-		
-		assertEquals(Main.creerFacture("Joe", 10), "Facture de Joe:\r\n" + 
-												   "Av taxe:            10.00$\r\n" + 
-												   "TPS(5%):             0.50$\r\n" + 
-												   "TVQ(10%):            1.00$\r\n" + 
-										 		   "Total:              11.50$");
-		assertEquals(Main.creerFacture("Paul", (6 * 2)), "Facture de Paul:\r\n" + 
-												 		 "Av taxe:            12.00$\r\n" + 
-												 		 "TPS(5%):             0.60$\r\n" + 
-												 		 "TVQ(10%):            1.20$\r\n" + 
-												 		 "Total:              13.80$");		
+		assertEquals(Main.creerFacture("Roger", 10.5), "Facture de Roger:\n" + 
+													   "Av taxe:             10.50$\n" + 
+													   "TPS(5%):              0.53$\n" + 
+													   "TVQ(10%):             1.05$\n" + 
+													   "Total:               12.08$");		
 	}
 
-	@Test
-	public void testCreerFactureMontantDeZero() {
-		
-		Main.clients.add(new Client("Joe"));
-		Main.clients.add(new Client("Paul"));
-		
-		Main.plats.add(new Plat("Spaghetti", 10));
-		
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
-		
-		assertEquals(Main.creerFacture("Joe", 10), "Facture de Joe:\r\n" + 
-												   "Av taxe:            10.00$\r\n" + 
-												   "TPS(5%):             0.50$\r\n" + 
-												   "TVQ(10%):            1.00$\r\n" + 
-										 		   "Total:              11.50$");		
-	}
-	
 	/* ***************************************************
 	 * Test methode CreerFichierFacture()
-	 *************************************************** *
+	 *************************************************** */
+	
+	@Test
+	public void testCreerFichierFactureMontantDeZero() {
+		String resultatAttendu = "";
+		
+		Main.lireFichierObjet("test.txt");
+		
+		Main.creerFichierFacture("Facture.txt");
+		
+		try {
+			Scanner input = new Scanner(new FileReader("Facture.txt"));
+		
+			while (input.hasNextLine()) {
+				resultatAttendu += input.nextLine() + "\n";
+			}
+			input.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Le fichier n'a pas été trouvé.");
+		}
+		
+		assertEquals(resultatAttendu, "Factures:\n" + 
+									  "Facture de Roger:\n" + 
+									  "Av taxe:             10.50$\n" + 
+									  "TPS(5%):              0.53$\n" + 
+									  "TVQ(10%):             1.05$\n" + 
+									  "Total:               12.08$\n" + 
+									  "Facture de Céline:\n" + 
+									  "Av taxe:             20.75$\n" + 
+									  "TPS(5%):              1.04$\n" + 
+									  "TVQ(10%):             2.08$\n" + 
+									  "Total:               23.86$\n");
+	}
 	
 	@Test
 	public void testCreerFichierFactureClientNonExistant() {
 		
-		Main.clients.add(new Client("Joe"));
+		String resultatAttendu = "";
 		
-		Main.plats.add(new Plat("Spaghetti", 10));
+		Main.lireFichierObjet("fichierTest\\testClientExistePas.txt");
 		
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
-		Main.commandes.add(new Commande(new Client("Paul"), Main.plats.get(0), 1));
+		Main.creerFichierFacture("Facture.txt");
 		
-		assertEquals(Main.creerFacture("Joe", 10), "Erreur de la commande: Paul Spaghetti 1\r\n" +
-												   "Code d'erreur: Le client n'existe pas.\r\n" +
-												   "Facture de Joe:\r\n" + 
-												   "Av taxe:            10.00$\r\n" + 
-												   "TPS(5%):             0.50$\r\n" + 
-												   "TVQ(10%):            1.00$\r\n" + 
-										 		   "Total:              11.50$");			
+		try {
+			Scanner input = new Scanner(new FileReader("Facture.txt"));
+		
+			while (input.hasNextLine()) {
+				resultatAttendu += input.nextLine() + "\n";
+			}
+			input.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Le fichier n'a pas été trouvé.");
+		}
+		
+		assertEquals(resultatAttendu, "Erreur de la commande: Joe Poutine 1\n" + 
+									  "Code d'erreur: Le client n'existe pas.\n");			
 	}
 	
 	@Test
 	public void testCreerFichierFacturePlatNonExistant() {
 		
-		Main.clients.add(new Client("Joe"));
-		Main.clients.add(new Client("Paul"));
+		String resultatAttendu = "";
 		
-		Main.plats.add(new Plat("Spaghetti", 10));
+		Main.lireFichierObjet("fichierTest\\testPlatExistePas.txt");
 		
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
-		Main.commandes.add(new Commande(Main.clients.get(1), new Plat("Poutine", 6), 1));
+		Main.creerFichierFacture("Facture.txt");
 		
-		assertEquals(Main.creerFacture("Joe", 10), "Erreur de la commande: Paul Poutine 1\r\n" +
-												   "Code d'erreur: Le plat n'existe pas.\r\n" +
-												   "Facture de Joe:\r\n" + 
-												   "Av taxe:            10.00$\r\n" + 
-												   "TPS(5%):             0.50$\r\n" + 
-												   "TVQ(10%):            1.00$\r\n" + 
-										 		   "Total:              11.50$");			
+		try {
+			Scanner input = new Scanner(new FileReader("Facture.txt"));
+		
+			while (input.hasNextLine()) {
+				resultatAttendu += input.nextLine() + "\n";
+			}
+			input.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Le fichier n'a pas été trouvé.");
+		}
+		
+		assertEquals(resultatAttendu, "Erreur de la commande: Roger Poulet 1\n" + 
+									  "Code d'erreur: Le plat n'existe pas.\n");			
 	}
 	
 	@Test
 	public void testCreerFichierFactureQuantiteImpossible() {
 		
-		Main.clients.add(new Client("Joe"));
+		String resultatAttendu = "";
 		
-		Main.plats.add(new Plat("Spaghetti", 10));
+		Main.lireFichierObjet("fichierTest\\testQuantiteInvalide.txt");
 		
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 0));
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), -1));
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
+		Main.creerFichierFacture("Facture.txt");
 		
-		assertEquals(Main.creerFacture("Facture.txt"), "Erreur de la commande: Joe Spaghetti 0\r\n" +
-													   "Code d'erreur: La quantité ne peut pas être 0.\r\n" +
-													   "Erreur de la commande: Joe Spaghetti -1\r\n" +
-													   "Code d'erreur: La quantité ne peut pas être inférieure à 0.\r\n" +
-													   "Facture de Joe:\r\n" + 
-													   "Av taxe:            10.00$\r\n" + 
-													   "TPS(5%):             0.50$\r\n" + 
-													   "TVQ(10%):            1.00$\r\n" + 
-											 		   "Total:              11.50$");			
+		try {
+			Scanner input = new Scanner(new FileReader("Facture.txt"));
+		
+			while (input.hasNextLine()) {
+				resultatAttendu += input.nextLine() + "\n";
+			}
+			input.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Le fichier n'a pas été trouvé.");
+		}
+		
+		assertEquals(resultatAttendu, "Erreur de la commande: Roger Poutine -1\n" + 
+									  "Code d'erreur: La quantité ne peut pas être inférieure à 0.\n" + 
+									  "Erreur de la commande: Roger Poutine 0\n" + 
+									  "Code d'erreur: La quantité ne peut pas être 0.\n");		
 	}
 	
 	@Test
 	public void testCreerFichierFactureFormatNonRespecter() {
 		
-		Main.clients.add(new Client("Joe"));
+		String resultatAttendu = "";
 		
-		Main.plats.add(new Plat("Spaghetti", 10));
-		Main.plats.add(new Plat("Poutine", 6));
+		Main.lireFichierObjet("fichierTest\\testFormatCommande.txt");
 		
-		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 0));
-		Main.commandes.add(new Commande(new Client("JoePoutine"), new Plat("1"), 0));
+		Main.creerFichierFacture("Facture.txt");
 		
-		assertEquals(Main.creerFacture("Facture.txt"), "Erreur de la commande: JoePoutine 0\r\n" +
-													   "Code d'erreur: Le format de la commande est invalide, car il manque un paramêtre.\r\n" +
-													   "Facture de Joe:\r\n" + 
-													   "Av taxe:            10.00$\r\n" + 
-													   "TPS(5%):             0.50$\r\n" + 
-													   "TVQ(10%):            1.00$\r\n" + 
-											 		   "Total:              11.50$");			
+		try {
+			Scanner input = new Scanner(new FileReader("Facture.txt"));
+		
+			while (input.hasNextLine()) {
+				resultatAttendu += input.nextLine() + "\n";
+			}
+			input.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Le fichier n'a pas été trouvé.");
+		}
+		
+		assertEquals(resultatAttendu, "Erreur de la commande: Roger Poutine\n" + 
+									  "Code d'erreur: Le format de la commande est invalide, car il manque un paramêtre.\n" + 
+									  "Erreur de la commande: Roger Poutine blah\n" + 
+									  "Code d'erreur: Le format de la commande est invalide, car blah n'est pas une quantité.\n" + 
+									  "Erreur de la commande: Roger Poutine 0.5\n" + 
+									  "Code d'erreur: Le format de la commande est invalide, car 0.5 n'est pas une quantité.\n");					
 	}
 
 	/* ***************************************************
