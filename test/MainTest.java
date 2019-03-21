@@ -25,7 +25,7 @@ public class MainTest {
 	
 	/* ***************************************************
 	 * Test methode CreerFacture()
-	 *************************************************** *
+	 *************************************************** */
 	@Test
 	public void testCreerFacture() {
 		
@@ -38,16 +38,16 @@ public class MainTest {
 		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
 		Main.commandes.add(new Commande(Main.clients.get(1), Main.plats.get(1), 2));
 		
-		assertEquals(Main.creerFacture("Facture.txt"), "Facture de Joe:\r\n" + 
-													   "Av taxe:            10.00$\r\n" + 
-													   "TPS(5%):             0.50$\r\n" + 
-													   "TVQ(10%):            1.00$\r\n" + 
-											 		   "Total:              11.50$\r\n" +
-											 		   "Facture de Paul:\r\n" + 
-											 		   "Av taxe:            12.00$\r\n" + 
-											 		   "TPS(5%):             0.60$\r\n" + 
-											 		   "TVQ(10%):            1.20$\r\n" + 
-											 		   "Total:              13.80$");			
+		assertEquals(Main.creerFacture("Joe", 10), "Facture de Joe:\r\n" + 
+												   "Av taxe:            10.00$\r\n" + 
+												   "TPS(5%):             0.50$\r\n" + 
+												   "TVQ(10%):            1.00$\r\n" + 
+										 		   "Total:              11.50$");
+		assertEquals(Main.creerFacture("Paul", (6 * 2)), "Facture de Paul:\r\n" + 
+												 		 "Av taxe:            12.00$\r\n" + 
+												 		 "TPS(5%):             0.60$\r\n" + 
+												 		 "TVQ(10%):            1.20$\r\n" + 
+												 		 "Total:              13.80$");		
 	}
 
 	@Test
@@ -60,15 +60,19 @@ public class MainTest {
 		
 		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
 		
-		assertEquals(Main.creerFacture("Facture.txt"), "Facture de Joe:\r\n" + 
-													   "Av taxe:            10.00$\r\n" + 
-													   "TPS(5%):             0.50$\r\n" + 
-													   "TVQ(10%):            1.00$\r\n" + 
-											 		   "Total:              11.50$");			
+		assertEquals(Main.creerFacture("Joe", 10), "Facture de Joe:\r\n" + 
+												   "Av taxe:            10.00$\r\n" + 
+												   "TPS(5%):             0.50$\r\n" + 
+												   "TVQ(10%):            1.00$\r\n" + 
+										 		   "Total:              11.50$");		
 	}
 	
+	/* ***************************************************
+	 * Test methode CreerFichierFacture()
+	 *************************************************** *
+	
 	@Test
-	public void testCreerFactureClientNonExistant() {
+	public void testCreerFichierFactureClientNonExistant() {
 		
 		Main.clients.add(new Client("Joe"));
 		
@@ -77,17 +81,17 @@ public class MainTest {
 		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
 		Main.commandes.add(new Commande(new Client("Paul"), Main.plats.get(0), 1));
 		
-		assertEquals(Main.creerFacture("Facture.txt"), "Erreur de la commande: Paul Spaghetti 1\r\n" +
-													   "Code d'erreur: Le client n'existe pas.\r\n" +
-													   "Facture de Joe:\r\n" + 
-													   "Av taxe:            10.00$\r\n" + 
-													   "TPS(5%):             0.50$\r\n" + 
-													   "TVQ(10%):            1.00$\r\n" + 
-											 		   "Total:              11.50$");			
+		assertEquals(Main.creerFacture("Joe", 10), "Erreur de la commande: Paul Spaghetti 1\r\n" +
+												   "Code d'erreur: Le client n'existe pas.\r\n" +
+												   "Facture de Joe:\r\n" + 
+												   "Av taxe:            10.00$\r\n" + 
+												   "TPS(5%):             0.50$\r\n" + 
+												   "TVQ(10%):            1.00$\r\n" + 
+										 		   "Total:              11.50$");			
 	}
 	
 	@Test
-	public void testCreerFacturePlatNonExistant() {
+	public void testCreerFichierFacturePlatNonExistant() {
 		
 		Main.clients.add(new Client("Joe"));
 		Main.clients.add(new Client("Paul"));
@@ -97,17 +101,17 @@ public class MainTest {
 		Main.commandes.add(new Commande(Main.clients.get(0), Main.plats.get(0), 1));
 		Main.commandes.add(new Commande(Main.clients.get(1), new Plat("Poutine", 6), 1));
 		
-		assertEquals(Main.creerFacture("Facture.txt"), "Erreur de la commande: Paul Poutine 1\r\n" +
-													   "Code d'erreur: Le plat n'existe pas.\r\n" +
-													   "Facture de Joe:\r\n" + 
-													   "Av taxe:            10.00$\r\n" + 
-													   "TPS(5%):             0.50$\r\n" + 
-													   "TVQ(10%):            1.00$\r\n" + 
-											 		   "Total:              11.50$");			
+		assertEquals(Main.creerFacture("Joe", 10), "Erreur de la commande: Paul Poutine 1\r\n" +
+												   "Code d'erreur: Le plat n'existe pas.\r\n" +
+												   "Facture de Joe:\r\n" + 
+												   "Av taxe:            10.00$\r\n" + 
+												   "TPS(5%):             0.50$\r\n" + 
+												   "TVQ(10%):            1.00$\r\n" + 
+										 		   "Total:              11.50$");			
 	}
 	
 	@Test
-	public void testCreerFactureQuantiteImpossible() {
+	public void testCreerFichierFactureQuantiteImpossible() {
 		
 		Main.clients.add(new Client("Joe"));
 		
@@ -129,7 +133,7 @@ public class MainTest {
 	}
 	
 	@Test
-	public void testCreerFactureFormatNonRespecter() {
+	public void testCreerFichierFactureFormatNonRespecter() {
 		
 		Main.clients.add(new Client("Joe"));
 		

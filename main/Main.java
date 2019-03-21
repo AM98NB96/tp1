@@ -1,5 +1,9 @@
 package main;
 import java.io.*;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -22,11 +26,12 @@ public class Main {
 	public static LinkedList<Erreur> erreurs = new LinkedList<Erreur>();
 	
 	public static void main(String[] args) {
+
 	
 		lireFichierObjet("test.txt");
 		
 		if (commandes.size() > 0) {
-			creerFacture("facture.txt");
+			creerFichierFacture("facture.txt");
 		}
 	}
 	/**
@@ -43,7 +48,7 @@ public class Main {
 			while (input.hasNextLine()) {
 				
 				String tmpString = input.nextLine();
-					//Type d'objet courrant
+				//Type d'objet courrant
 				if (tmpString.equals("Clients :") || tmpString.equals("Plats :") || tmpString.equals("Commandes :") || tmpString.equals("Fin")) {
 					
 					typeObj = tmpString;
@@ -156,6 +161,7 @@ public class Main {
 							if (!erreur) {
 								commandes.add(new Commande(client, plat, qte));
 							}
+							
 							break;
 						case "Fin":
 							// Fin de la lecture
@@ -169,32 +175,85 @@ public class Main {
 			System.out.println("Le fichier " + fichier + " n'a pas été trouvé.");
 		}
 	}
+	
+	
+	
+	/*
+	 * Sauvegarde et affichage des factures
+	*/
+	
+	/**
+	 * Permet de créer la facture du total des commandes d'un client
+	 * @param nomClient
+	 * 			Contient le nom du client courrant
+	 * @param cout
+	 * 			Contient la somme avant taxe des commandes du client courrant
+	 * @return
+	 * 		Une facture
+	 */
+	public static String creerFacture(String nomClient, double cout) {
+		double coutTPS = cout * 0.05;
+		double coutTVQ = cout * 0.10;
+		double total = cout + coutTPS + coutTVQ;
+		int nbE = 21 + String.format("%.2f",
+				Collections.max(Arrays.asList(cout, coutTPS, coutTVQ, total))).length();
+		String facture = ("Facture de " + nomClient + ":\r\n" + 
+				assemblerFacture(nbE, cout, "Av taxe:") +
+				assemblerFacture(nbE, coutTPS, "TPS(5%):") +
+				assemblerFacture(nbE, coutTVQ, "TVQ(10%):") +
+				assemblerFacture(nbE, total, "Total:"));
+		return facture;
+	}
+	/**
+	 * Defini le nombre d'espaces nécessaires pour ajuster l'affichage puis assemble la chaine
+	 * 
+	 * @param nbEspaces
+	 * 			Contient un nombre d'espaces calculé pour empêcher les débordements
+	 * @param cout
+	 * 			Contient le cout courrant
+	 * @param titre
+	 * 			Contient le titre qui défini le cout courrant
+	 * @return
+	 * 			Une ligne de la facture
+	 */
+	static String assemblerFacture(int nbEspaces, double cout, String titre) {
+		String sCout = String.format("%.2f", cout);
+		char[] espaces = new char[nbEspaces-(titre+sCout).length()];
+		Arrays.fill(espaces, ' ');
+		return (titre + new String(espaces) + sCout + "$\r\n");
+	}
 	/**
 	 * Création du fichier d'un fichier où les factures sont sauvegardées
 	 * @param nomFichier
 	 * 			Contient le nom du fichier
 	 */
-	public static String creerFacture(String nomFichier) {
+	public static void creerFichierFacture(String nomFichier){
 		PrintWriter sortie;
-		
 		try {
 			sortie = new PrintWriter(nomFichier);
-		
-			sortie.println("Factures:");
-			for (Client cli : clients) {
-				double total = 0;
-				for (Commande com : commandes) {
-					total += (com.client.nom.equals(cli.nom)) ? (com.plat.cout * com.qte): 0;
-				}
-				sortie.println(cli.nom + " " + total + "$");
-			}
-			sortie.close();
 			
+			//Affichage des erreurs
+			for (Erreur erreur : erreurs) {
+				System.out.println("Erreur de la commande: " + erreur.commande + "\n" +
+								   "Code d'erreur: " + erreur.codeErreur);
+				sortie.println("Erreur de la commande: " + erreur.commande + "\n" +
+						   	   "Code d'erreur: " + erreur.codeErreur);
+			}
+			
+			//Titre
+			System.out.println("Factures:");
+			sortie.println("Factures:");
+			
+			// Affichage des commandes
+			for (Commande com : commandes) {
+				System.out.println(creerFacture(com.client.nom, com.plat.cout));
+				sortie.println(creerFacture(com.client.nom, com.plat.cout));
+			}
+			
+			sortie.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Le fichier " + nomFichier + "n'a pas été trouvé.");
 		}
-		
-		return "";
 	}
 
 }
