@@ -1,4 +1,2 @@
 Factures:
-Roger 10.5$
-Céline 20.75$
-Steeve 0.0$
+Joe 0.0$

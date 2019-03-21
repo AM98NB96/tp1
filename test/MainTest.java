@@ -5,13 +5,13 @@ import main.*;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 public class MainTest {
 	
@@ -25,7 +25,7 @@ public class MainTest {
 	
 	/* ***************************************************
 	 * Test methode CreerFacture()
-	 *************************************************** */
+	 *************************************************** *
 	@Test
 	public void testCreerFacture() {
 		
@@ -153,14 +153,18 @@ public class MainTest {
 	 *************************************************** */
 	
 	// Test d'existance
+	@Test
 	public void testLireFichierObjetClientExistePas() {
-		Main.lireFichierObjet("testClientExistePas.txt");
+		Main.lireFichierObjet("fichierTest\\testClientExistePas.txt");
+		
 		Erreur erreur = new Erreur("Joe Poutine 1", "Le client n'existe pas.");
+		
 		assertEquals(Main.erreurs.get(0), erreur);
 	}
 	
+	@Test
 	public void testLireFichierObjetPlatExistePas() {
-		Main.lireFichierObjet("testPlatExistePas.txt");
+		Main.lireFichierObjet("fichierTest\\testPlatExistePas.txt");
 		
 		Erreur erreur = new Erreur("Roger Poulet 1", "Le plat n'existe pas.");
 		
@@ -168,9 +172,10 @@ public class MainTest {
 	}
 
 	// Test de formats
+	@Test
 	public void testLireFichierObjetFormatClient() {
 		
-		Main.lireFichierObjet("testFormatClient.txt");
+		Main.lireFichierObjet("fichierTest\\testFormatClient.txt");
 		
 		Erreur erreur = new Erreur("Roger Dulac", "Le format du client est invalide, car il ne doit pas contenir d'espaces.");
 		Erreur erreur1 = new Erreur("Robert?", "Le format du client est invalide, car il ne doit pas contenir de caracteres spéciaux autre que '-'.");
@@ -181,21 +186,22 @@ public class MainTest {
 		assertEquals(Main.erreurs.get(2), erreur2);
 	}
 	
+	@Test
 	public void testLireFichierObjetFormatPlat(){
 		
-		Main.lireFichierObjet("testFormatPlat.txt");
+		Main.lireFichierObjet("fichierTest\\testFormatPlat.txt");
 		
 		Erreur erreur = new Erreur("Poutine", "Le format du plat est invalide, car il manque un paramêtre.");
-		Erreur erreur1 = new Erreur("Poutine blah", "Le format du plat est invalide, car blah n'est pas un prix.");
+		Erreur erreur1 = new Erreur("Poutine blah", "Le format du plat est invalide, car blah n'est pas un prix valide.");
 		
 		assertEquals(Main.erreurs.get(0), erreur);
 		assertEquals(Main.erreurs.get(1), erreur1);
-		
 	}
 	
+	@Test
 	public void testLireFichierObjetFormatCommande(){
 		
-		Main.lireFichierObjet("testFormatCommande.txt");
+		Main.lireFichierObjet("fichierTest\\testFormatCommande.txt");
 		
 		Erreur erreur = new Erreur("Roger Poutine", "Le format de la commande est invalide, car il manque un paramêtre.");
 		Erreur erreur1 = new Erreur("Roger Poutine blah", "Le format de la commande est invalide, car blah n'est pas une quantité.");
@@ -206,18 +212,20 @@ public class MainTest {
 		assertEquals(Main.erreurs.get(2), erreur2);
 	}
 	// Test de validité
+	@Test
 	public void testLireFichierObjetPrixInvalide() {
 		
-		Main.lireFichierObjet("testPrixInvalide.txt");
+		Main.lireFichierObjet("fichierTest\\testPrixInvalide.txt");
 		
-		Erreur erreur = new Erreur("Poutine -3", "Le prix du plat ne peut pas être égal ou inférieur à 0.");
-		
+		Erreur erreur = new Erreur("Poutine -3", "Le format du plat est invalide, car -3 n'est pas un prix valide.");
+
 		assertEquals(Main.erreurs.get(0), erreur);
 	}
 	
+	@Test
 	public void testLireFichierObjetQuantiteInvalide() {
 		
-		Main.lireFichierObjet("testQuantiteInvalide.txt");
+		Main.lireFichierObjet("fichierTest\\testQuantiteInvalide.txt");
 		
 		Erreur erreur = new Erreur("Roger Poutine -1", "La quantité ne peut pas être inférieure à 0.");
 		Erreur erreur1 = new Erreur("Roger Poutine 0", "La quantité ne peut pas être 0.");
@@ -231,5 +239,6 @@ public class MainTest {
 		Main.clients = null;
 		Main.plats = null;
 		Main.commandes = null;
+		Main.erreurs = null;
 	}
 }
