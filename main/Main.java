@@ -247,7 +247,12 @@ public class Main {
 			sortie = new PrintWriter(nomFichier);
 			
 			//Affichage des erreurs
-			afficherErreur(sortie);
+			for (Erreur erreur : erreurs) {
+				String affichageErreur = erreur.afficherErreur();
+				
+				System.out.println(affichageErreur);
+				sortie.println(affichageErreur);
+			}
 			
 			if (commandes.size() > 0) {
 				//Titre
@@ -267,8 +272,10 @@ public class Main {
 					
 					// Si le prix n'est pas de 0 création de la facture
 					if (prix > 0) {
-						System.out.println(creerFacture(client.nom, prix));
-						sortie.println(creerFacture(client.nom, prix));
+						String facture = creerFacture(client.nom, prix);
+						
+						System.out.println(facture);
+						sortie.println(facture);
 					}
 				}
 			}
@@ -276,21 +283,6 @@ public class Main {
 			sortie.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Le fichier " + nomFichier + "n'a pas été trouvé.");
-		}
-	}
-
-	/**
-	 * Méthode pour afficher les erreurs.
-	 * 
-	 * @param sortie
-	 * 			Sortie de fichier
-	 */
-	public static void afficherErreur(PrintWriter sortie) {
-		for (Erreur erreur : erreurs) {
-			System.out.println("Erreur de la commande: " + erreur.commande + "\n" +
-							   "Code d'erreur: " + erreur.codeErreur);
-			sortie.println("Erreur de la commande: " + erreur.commande + "\n" +
-					   	   "Code d'erreur: " + erreur.codeErreur);
 		}
 	}
 }

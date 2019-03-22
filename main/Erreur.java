@@ -1,5 +1,7 @@
 package main;
 
+import java.io.PrintWriter;
+
 /**
  * La classe erreur contient les informations de l'erreur.
  *
@@ -24,6 +26,16 @@ public class Erreur {
 	public Erreur(String commande, String codeErreur) {
 		this.commande = commande;
 		this.codeErreur = codeErreur;
+	}
+	
+	/**
+	 * Méthode pour afficher les erreurs.
+	 * 
+	 * @param sortie
+	 * 			Sortie de fichier
+	 */
+	public String afficherErreur() {
+		return "Erreur de la commande: " + this.commande + "\n" + "Code d'erreur: " + this.codeErreur;
 	}
 	
 	@Override
