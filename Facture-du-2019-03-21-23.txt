@@ -1,0 +1,15 @@
+Erreur de la commande: Repas Poulet 15.75
+Code d'erreur: Le format du plat est invalide, car Poulet n'est pas un prix valide.
+Erreur de la commande: Céline Repas_Poulet 1
+Code d'erreur: Le plat n'existe pas.
+Factures:
+Facture de Roger:
+Av taxe:             10.55$
+TPS(5%):              0.53$
+TVQ(10%):             1.06$
+Total:               12.13$
+Facture de Céline:
+Av taxe:             5.00$
+TPS(5%):             0.25$
+TVQ(10%):            0.50$
+Total:               5.75$
