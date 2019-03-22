@@ -1,6 +1,0 @@
-Erreur de la commande: Roger Poutine
-Code d'erreur: Le format de la commande est invalide, car il manque un paramêtre.
-Erreur de la commande: Roger Poutine blah
-Code d'erreur: Le format de la commande est invalide, car blah n'est pas une quantité.
-Erreur de la commande: Roger Poutine 0.5
-Code d'erreur: Le format de la commande est invalide, car 0.5 n'est pas une quantité.
