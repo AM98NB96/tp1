@@ -26,6 +26,16 @@ public class Erreur {
 		this.codeErreur = codeErreur;
 	}
 	
+	/**
+	 * Méthode pour afficher les erreurs.
+	 * 
+	 * @param sortie
+	 * 			Sortie de fichier
+	 */
+	public String afficherErreur() {
+		return "Erreur de la commande: " + this.commande + "\n" + "Code d'erreur: " + this.codeErreur;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		return (this.codeErreur.equals(((Erreur)obj).codeErreur) && this.commande.equals(((Erreur)obj).commande));

@@ -29,12 +29,13 @@ public class Main {
 	public static void main(String[] args) {
 		lireFichierObjet("test.txt");
 		
+		// Création de la date pour le nom du fichier
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH");
 		Date date = new Date();
 		
-		if (commandes.size() > 0) {
-			creerFichierFacture("Facture-du-" + dateFormat.format(date) + ".txt");
-		}
+		
+		creerFichierFacture("Facture-du-" + dateFormat.format(date) + ".txt");
+		
 	}
 	/**
 	 * Lecture du fichier objet pour créer les objets qui y sont sauvegardés
@@ -199,11 +200,14 @@ public class Main {
 	 * 		Une facture
 	 */
 	public static String creerFacture(String nomClient, double cout) {
+		// Calcul du cout
 		double coutTPS = cout * 0.05;
 		double coutTVQ = cout * 0.10;
 		double total = cout + coutTPS + coutTVQ;
+		// Nombre d'espaces
 		int nbE = 21 + String.format("%.2f",
 				Collections.max(Arrays.asList(cout, coutTPS, coutTVQ, total))).length();
+		// Création de la facture
 		String facture = ("Facture de " + nomClient + ":\n" + 
 				assemblerFacture(nbE, cout, "Av taxe:") + "\n" +
 				assemblerFacture(nbE, coutTPS, "TPS(5%):") + "\n" +
@@ -224,7 +228,9 @@ public class Main {
 	 * 			Une ligne de la facture
 	 */
 	static String assemblerFacture(int nbEspaces, double cout, String titre) {
+		// Formation du coût
 		String sCout = String.format("%.2f", cout);
+		// Insertion du nombre d'espaces
 		char[] espaces = new char[nbEspaces-(titre+sCout).length()];
 		Arrays.fill(espaces, ' ');
 		return (titre + new String(espaces) + sCout + "$");
@@ -242,32 +248,35 @@ public class Main {
 			
 			//Affichage des erreurs
 			for (Erreur erreur : erreurs) {
-				System.out.println("Erreur de la commande: " + erreur.commande + "\n" +
-								   "Code d'erreur: " + erreur.codeErreur);
-				sortie.println("Erreur de la commande: " + erreur.commande + "\n" +
-						   	   "Code d'erreur: " + erreur.codeErreur);
+				String affichageErreur = erreur.afficherErreur();
+				
+				System.out.println(affichageErreur);
+				sortie.println(affichageErreur);
 			}
 			
-			//Titre
 			if (commandes.size() > 0) {
+				//Titre
 				System.out.println("Factures:");
 				sortie.println("Factures:");
-			}
 			
-			
-			// Affichage des commandes
-			for (Client client : clients) {
-				double prix = 0;
-				
-				for (Commande com : commandes) {
-					if (com.client.nom.equals(client.nom)) {
-						prix += com.qte * com.plat.cout;
+				// Affichage des commandes
+				for (Client client : clients) {
+					double prix = 0;
+					
+					// Calcul du prix de chaque commandes d'un client.
+					for (Commande com : commandes) {
+						if (com.client.nom.equals(client.nom)) {
+							prix += com.qte * com.plat.cout;
+						}
 					}
-				}
-				
-				if (prix > 0) {
-					System.out.println(creerFacture(client.nom, prix));
-					sortie.println(creerFacture(client.nom, prix));
+					
+					// Si le prix n'est pas de 0 création de la facture
+					if (prix > 0) {
+						String facture = creerFacture(client.nom, prix);
+						
+						System.out.println(facture);
+						sortie.println(facture);
+					}
 				}
 			}
 			
@@ -276,5 +285,4 @@ public class Main {
 			System.out.println("Le fichier " + nomFichier + "n'a pas été trouvé.");
 		}
 	}
-
 }
