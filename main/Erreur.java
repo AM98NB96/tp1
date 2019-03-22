@@ -1,7 +1,5 @@
 package main;
 
-import java.io.PrintWriter;
-
 /**
  * La classe erreur contient les informations de l'erreur.
  *
