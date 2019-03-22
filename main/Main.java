@@ -43,8 +43,9 @@ public class Main {
 	 */
 	public static void lireFichierObjet(String fichier) {
 		try {
+			//Création du lecteur de fichier
 			Scanner input = new Scanner(new FileReader(fichier));
-		
+			//Variable qui determine le type d'objet courrant dans le fichier
 			String typeObj = "";
 
 			while (input.hasNextLine()) {
@@ -52,7 +53,7 @@ public class Main {
 				String tmpString = input.nextLine();
 				
 				if (tmpString.length() > 0) {
-					//Type d'objet courrant
+					//Condition pour determiner / changer le type d'objet courrant
 					if (tmpString.equals("Clients :") || tmpString.equals("Plats :") || tmpString.equals("Commandes :") || tmpString.equals("Fin")) {
 						
 						typeObj = tmpString;
@@ -67,29 +68,34 @@ public class Main {
 						
 							//Création des clients
 							case "Clients :":
+								
 								for (char car : tmpString.toCharArray()) {
-									if (!Character.isLetter(car) && car != '-') {
-										if (Character.isWhitespace(car)) {
-											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir d'espaces."));
-										} else if (Character.isDigit(car)) {
-											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres numériques."));
-										} else  {
-											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres spéciaux autre que '-'."));
-										}
+									//Gestion d'erreur pour la création des clients
+									Erreur err = Erreur.verifFormatClient(car, tmpString, erreur);
+									
+									if (err.codeErreur != "") {
+										erreurs.add(err);
+										erreur = true;
 									}
 								}
-
-								clients.add(new Client(tmpString));					
+								
+								//Création du client s'il respecte le format
+								if (!erreur) {
+									clients.add(new Client(tmpString));	
+									erreur = false;
+								}	
 								break;
 								
 							//Création des plats
 							case "Plats :":
+								// Gestion d'erreur pour la création des plats
 								if (tmp.length == 1) {
 									erreurs.add(new Erreur(tmpString , "Le format du plat est invalide, car il manque un paramêtre."));
 									erreur = true;
 								} else {
 									boolean unPoint = false;
 									
+									// Vérification s'il y a qu'un seul point et aucun autre caractère spécial dans le prix
 									for (char car : tmp[1].toCharArray()) {
 										if (!Character.isDigit(car) && (car != '.' || unPoint) && !erreur) {
 											erreurs.add(new Erreur(tmpString , "Le format du plat est invalide, car " + tmp[1] + " n'est pas un prix valide."));
@@ -99,7 +105,8 @@ public class Main {
 										unPoint = (car == '.') || unPoint;
 									}
 								} 
-
+								
+								//Création du plat s'il respecte le format
 								if (!erreur) {
 									plats.add(new Plat(tmp[0], Double.parseDouble(tmp[1])));
 								}
@@ -229,6 +236,7 @@ public class Main {
 		Arrays.fill(espaces, ' ');
 		return (titre + new String(espaces) + sCout + "$");
 	}
+	
 	/**
 	 * Création du fichier d'un fichier où les factures sont sauvegardées
 	 * @param nomFichier
