@@ -95,7 +95,7 @@ public class Main {
 									boolean unPoint = false;
 									
 									for (char car : tmp[1].toCharArray()) {
-										if (!Character.isDigit(car) && (car != '.' || unPoint)) {
+										if (!Character.isDigit(car) && (car != '.' || unPoint) && !erreur) {
 											erreurs.add(new Erreur(tmpString , "Le format du plat est invalide, car " + tmp[1] + " n'est pas un prix valide."));
 											erreur = true;
 										}
