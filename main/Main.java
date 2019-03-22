@@ -54,126 +54,129 @@ public class Main {
 			while (input.hasNextLine()) {
 				
 				String tmpString = input.nextLine();
-				//Type d'objet courrant
-				if (tmpString.equals("Clients :") || tmpString.equals("Plats :") || tmpString.equals("Commandes :") || tmpString.equals("Fin")) {
-					
-					typeObj = tmpString;
-					
-				}else{
-					
-					//Séparation des lignes du fichier d'objets
-					String[] tmp = tmpString.split(" ");
-					boolean erreur = false;
-					
-					switch (typeObj) {
-					
-						//Création des clients
-						case "Clients :":
-							for (char car : tmpString.toCharArray()) {
-								if (!Character.isLetter(car) && car != '-') {
-									if (Character.isWhitespace(car)) {
-										erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir d'espaces."));
-									} else if (Character.isDigit(car)) {
-										erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres numériques."));
-									} else  {
-										erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres spéciaux autre que '-'."));
+				
+				if (tmpString.length() > 0) {
+					//Type d'objet courrant
+					if (tmpString.equals("Clients :") || tmpString.equals("Plats :") || tmpString.equals("Commandes :") || tmpString.equals("Fin")) {
+						
+						typeObj = tmpString;
+						
+					}else{
+						
+						//Séparation des lignes du fichier d'objets
+						String[] tmp = tmpString.split(" ");
+						boolean erreur = false;
+						
+						switch (typeObj) {
+						
+							//Création des clients
+							case "Clients :":
+								for (char car : tmpString.toCharArray()) {
+									if (!Character.isLetter(car) && car != '-') {
+										if (Character.isWhitespace(car)) {
+											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir d'espaces."));
+										} else if (Character.isDigit(car)) {
+											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres numériques."));
+										} else  {
+											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres spéciaux autre que '-'."));
+										}
 									}
 								}
-							}
 
-							clients.add(new Client(tmpString));					
-							break;
-							
-						//Création des plats
-						case "Plats :":
-							if (tmp.length == 1) {
-								erreurs.add(new Erreur(tmpString , "Le format du plat est invalide, car il manque un paramêtre."));
-								erreur = true;
-							} else {
-								boolean unPoint = false;
+								clients.add(new Client(tmpString));					
+								break;
 								
-								for (char car : tmp[1].toCharArray()) {
-									if (!Character.isDigit(car) && (car != '.' || unPoint)) {
-										erreurs.add(new Erreur(tmpString , "Le format du plat est invalide, car " + tmp[1] + " n'est pas un prix valide."));
+							//Création des plats
+							case "Plats :":
+								if (tmp.length == 1) {
+									erreurs.add(new Erreur(tmpString , "Le format du plat est invalide, car il manque un paramêtre."));
+									erreur = true;
+								} else {
+									boolean unPoint = false;
+									
+									for (char car : tmp[1].toCharArray()) {
+										if (!Character.isDigit(car) && (car != '.' || unPoint)) {
+											erreurs.add(new Erreur(tmpString , "Le format du plat est invalide, car " + tmp[1] + " n'est pas un prix valide."));
+											erreur = true;
+										}
+										
+										unPoint = (car == '.') || unPoint;
+									}
+								} 
+
+								if (!erreur) {
+									plats.add(new Plat(tmp[0], Double.parseDouble(tmp[1])));
+								}
+								break;
+			
+							//Création des commandes
+							case "Commandes :":
+								
+								Client client = new Client("");
+								Plat plat = new Plat("");
+								int qte = 0;
+								
+								// Test Client
+								for (char car : tmp[0].toCharArray()) {
+									if (!Character.isLetter(car) && car != '-') {
+										if (Character.isDigit(car)) {
+											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres numériques."));
+										} else {
+											erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres spéciaux autre que '-'."));
+										}
+										erreur = true;
+									}
+								}
+								
+								for (Client c : clients) {
+									if (c.nom.equals(tmp[0])) client = c; 
+								}
+								
+								if (client.nom.equals("")) {
+									erreurs.add(new Erreur(tmpString , "Le client n'existe pas."));
+									erreur = true;
+								}
+								
+								// Test Plat
+								for (Plat p : plats) {
+									if (p.nom.equals(tmp[1])) plat = p;
+								}
+								
+								if (plat.nom.equals("")) {
+									erreurs.add(new Erreur(tmpString , "Le plat n'existe pas."));
+									erreur = true;
+								}
+								
+								//Test Quantité
+								if (tmp.length < 3) {
+									erreurs.add(new Erreur(tmpString, "Le format de la commande est invalide, car il manque un paramêtre."));
+									erreur = true;
+								} else {
+									try {
+										qte = Integer.parseInt(tmp[2]);
+									} catch (NumberFormatException e) {
+										erreurs.add(new Erreur(tmpString, "Le format de la commande est invalide, car " + tmp[2] + " n'est pas une quantité."));
 										erreur = true;
 									}
 									
-									unPoint = (car == '.') || unPoint;
-								}
-							} 
-
-							if (!erreur) {
-								plats.add(new Plat(tmp[0], Double.parseDouble(tmp[1])));
-							}
-							break;
-		
-						//Création des commandes
-						case "Commandes :":
-							
-							Client client = new Client("");
-							Plat plat = new Plat("");
-							int qte = 0;
-							
-							// Test Client
-							for (char car : tmp[0].toCharArray()) {
-								if (!Character.isLetter(car) && car != '-') {
-									if (Character.isDigit(car)) {
-										erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres numériques."));
-									} else {
-										erreurs.add(new Erreur(tmpString , "Le format du client est invalide, car il ne doit pas contenir de caracteres spéciaux autre que '-'."));
+									if (!erreur && qte < 0) {
+										erreurs.add(new Erreur(tmpString, "La quantité ne peut pas être inférieure à 0."));
+										erreur = true;
+									} else if (!erreur && qte == 0) {
+										erreurs.add(new Erreur(tmpString, "La quantité ne peut pas être 0."));
+										erreur = true;
 									}
-									erreur = true;
-								}
-							}
-							
-							for (Client c : clients) {
-								if (c.nom.equals(tmp[0])) client = c; 
-							}
-							
-							if (client.nom.equals("")) {
-								erreurs.add(new Erreur(tmpString , "Le client n'existe pas."));
-								erreur = true;
-							}
-							
-							// Test Plat
-							for (Plat p : plats) {
-								if (p.nom.equals(tmp[1])) plat = p;
-							}
-							
-							if (plat.nom.equals("")) {
-								erreurs.add(new Erreur(tmpString , "Le plat n'existe pas."));
-								erreur = true;
-							}
-							
-							//Test Quantité
-							if (tmp.length < 3) {
-								erreurs.add(new Erreur(tmpString, "Le format de la commande est invalide, car il manque un paramêtre."));
-								erreur = true;
-							} else {
-								try {
-									qte = Integer.parseInt(tmp[2]);
-								} catch (NumberFormatException e) {
-									erreurs.add(new Erreur(tmpString, "Le format de la commande est invalide, car " + tmp[2] + " n'est pas une quantité."));
-									erreur = true;
 								}
 								
-								if (!erreur && qte < 0) {
-									erreurs.add(new Erreur(tmpString, "La quantité ne peut pas être inférieure à 0."));
-									erreur = true;
-								} else if (!erreur && qte == 0) {
-									erreurs.add(new Erreur(tmpString, "La quantité ne peut pas être 0."));
-									erreur = true;
+								if (!erreur) {
+									commandes.add(new Commande(client, plat, qte));
 								}
-							}
-							
-							if (!erreur) {
-								commandes.add(new Commande(client, plat, qte));
-							}
-							
-							break;
-						case "Fin":
-							// Fin de la lecture
-							break;
+								
+								break;
+							case "Fin":
+								// Fin de la lecture
+								break;
+						}
 					}
 				}
 			}
