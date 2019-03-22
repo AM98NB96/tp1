@@ -14,8 +14,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
-
 public class MainTest {
 	
 	@Before
